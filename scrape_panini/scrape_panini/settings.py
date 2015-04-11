@@ -36,9 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "celery",
-    "djcelery",
     "core",
+    'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -46,7 +45,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -84,3 +83,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+        'social.backends.facebook.FacebookOAuth2',
+
+        'django.contrib.auth.backends.ModelBackend'
+    )
+
+SOCIAL_AUTH_FACEBOOK_SECRET ="3a91062cce81e7773c0cd489284b06e7"
+SOCIAL_AUTH_FACEBOOK_KEY  = "1554888991437477"
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)

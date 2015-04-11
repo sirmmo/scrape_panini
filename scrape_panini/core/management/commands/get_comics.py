@@ -42,10 +42,10 @@ class Command(BaseCommand):
 				for url in base_urls:
 					the_url = url%(year, week)
 					print ">> %s/%s" % (year, week)
-					self.get_page(the_url)
+					self.get_page(the_url, year, week)
 
 
-	def get_page(self,the_url):
+	def get_page(self,the_url, y,w):
 		page = requests.get(the_url)
 		page = page.text
 		page = BeautifulSoup(page)
@@ -66,6 +66,7 @@ class Command(BaseCommand):
 				elif "title" in di["class"]:
 					print di.h3.string
 					c.title = di.h3.string
+					c.contains = di.find_all(class_="features")[0].string
 				elif "price" in di["class"]:
 					c.price = float(di.find_all("strong")[-1].string)
 				elif "actions_comm" in di["class"]:
@@ -74,9 +75,16 @@ class Command(BaseCommand):
 							c.ident = di.a["href"].split("=")[1]
 						except:
 							pass
+				elif "desc" in di["class"]:
+					c.notes = di.p.string
 							
+			c.year = y
+			c.week = w
 
-			c.save()
+			if Comic.objects.filter(ident=c.ident).count()>0:
+				pass
+			else:
+				c.save()
 
 
 
