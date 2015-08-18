@@ -18,6 +18,9 @@ class Comic(models.Model):
 	def __str__(self):
 		return self.title
 
+	class Meta:
+		ordering=["-year", "-week"]
+
 class Collection(models.Model):
 	owner = models.ForeignKey(User, related_name="owned_by")
 	comic = models.ForeignKey(Comic, related_name="owned_by")

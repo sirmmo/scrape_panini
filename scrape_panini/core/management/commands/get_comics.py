@@ -66,7 +66,10 @@ class Command(BaseCommand):
 				elif "title" in di["class"]:
 					print di.h3.string
 					c.title = di.h3.string
-					c.contains = di.find_all(class_="features")[0].string
+					if di.find_all(class_="features")[0].string:
+						c.contains = di.find_all(class_="features")[0].string.replace("\n", "")
+					else:
+						c.contains = ""
 				elif "price" in di["class"]:
 					c.price = float(di.find_all("strong")[-1].string)
 				elif "actions_comm" in di["class"]:
@@ -76,7 +79,10 @@ class Command(BaseCommand):
 						except:
 							pass
 				elif "desc" in di["class"]:
-					c.notes = di.p.string
+					if di.p.string:
+						c.notes = di.p.string.replace("\n", "")
+					else:
+						c.notes = ""
 							
 			c.year = y
 			c.week = w
